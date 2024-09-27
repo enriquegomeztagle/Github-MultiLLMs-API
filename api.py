@@ -7,38 +7,44 @@ import datetime
 import time
 import sys
 from openai import OpenAI
-
+from azure.ai.inference import EmbeddingsClient
+from azure.core.credentials import AzureKeyCredential
+########################################################
 app = FastAPI()
-
+########################################################
 logger.add(sys.stderr, format="<blue>{time:YYYY-MM-DD HH:mm:ss}</blue> | <level>{level: <8}</level> | <cyan>{message}</cyan>", level="INFO")
-
+########################################################
 token = os.getenv("GITHUB_TOKEN")
 if not token:
     raise ValueError("GITHUB_TOKEN is not set as an environment variable.")
-
+########################################################
 class QuestionRequest(BaseModel):
     question: str
 
+class EmbeddingRequest(BaseModel):
+    phrases: list[str]
+########################################################
 azure_endpoint = "https://models.inference.ai.azure.com"
-gpt4o_mini_id = "gpt-4o-mini"
 
-client = OpenAI(
+OpenAIclient = OpenAI(
     base_url=azure_endpoint,
     api_key=token,
 )
 
+OpenAIEmbeddingsClient = EmbeddingsClient(
+    endpoint=azure_endpoint,
+    credential=AzureKeyCredential(token)
+)
+########################################################
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     start_time = time.time()
     logger.info(f"Request: {request.method} {request.url}")
-    
     response = await call_next(request)
-    
     duration = time.time() - start_time
     logger.info(f"Response: {response.status_code} - Duration: {duration:.2f}s")
-    
     return response
-
+########################################################
 @app.get("/health")
 def health_check():
     health_data = {
