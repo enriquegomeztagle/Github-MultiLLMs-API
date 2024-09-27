@@ -21,10 +21,20 @@
 * text-embedding-3-large
 
 ```
-/mistral/chat/{model}
+/mistral/text/{model}
 ```
 
 * Mistral-Nemo
 * Mistral-small
 * Mistral-large
 * Mistral-large-2407
+
+```
+/meta/text/{model}
+```
+
+* Meta-Llama-3-8-Instruct
+* Meta-Llama-3-70B-Instruct
+* Meta-Llama-3.1-8B-Instruct
+* Meta-Llama-3.1-70B-Instruct
+* Meta-Llama-3.1-405B-Instruct
