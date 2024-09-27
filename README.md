@@ -53,3 +53,16 @@
 * AI21-Jamba-1.5-Large
 * AI21-Jamba-1.5-Mini
 * AI21-Jamba-Instruct
+
+```
+/microsoft-phi/text/{model}
+```
+
+* Phi-3.5-MoE-instruct
+* Phi-3.5-mini-instruct
+* Phi-3-medium-128k-instruct
+* Phi-3-medium-4k-instruct
+* Phi-3-mini-128k-instruct
+* Phi-3-mini-4k-instruct
+* Phi-3-small-128k-instruct
+* Phi-3-small-8k-instruct
