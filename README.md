@@ -38,3 +38,10 @@
 * Meta-Llama-3.1-8B-Instruct
 * Meta-Llama-3.1-70B-Instruct
 * Meta-Llama-3.1-405B-Instruct
+
+```
+/cohere/text/{model}
+```
+
+* Cohere-command-r
+* Cohere-command-r-plus
