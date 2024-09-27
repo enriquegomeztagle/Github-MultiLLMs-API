@@ -9,6 +9,9 @@ import sys
 from openai import OpenAI
 from azure.ai.inference import EmbeddingsClient
 from azure.core.credentials import AzureKeyCredential
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage
+from azure.ai.inference.models import UserMessage
 ########################################################
 app = FastAPI()
 ########################################################
@@ -35,6 +38,11 @@ OpenAIEmbeddingsClient = EmbeddingsClient(
     endpoint=azure_endpoint,
     credential=AzureKeyCredential(token)
 )
+
+client = ChatCompletionsClient(
+    endpoint=azure_endpoint,
+    credential=AzureKeyCredential(token),
+)
 ########################################################
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -52,7 +60,8 @@ def health_check():
         "status": "OK",
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "environment": os.environ.get("FLASK_ENV", "dev"),
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "author": "https://github.com/enriquegomeztagle"
     }
     return JSONResponse(content=health_data)
 ########################################################
@@ -121,3 +130,39 @@ async def get_embeddings(model_name: str, request: EmbeddingRequest):
     except Exception as e:
         logger.error(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+########################################################
+@app.post("/mistral/chat/{model}")
+async def chat_with_mistral(model: str, request: QuestionRequest):
+    start_time = time.time()
+    success = False
+
+    system_message = SystemMessage(content="You are a helpful assistant.")
+
+    user_message = UserMessage(content=request.question)
+
+    messages = [system_message, user_message]
+
+    try:
+        response = client.complete(
+            messages=messages,
+            model=model,
+            temperature=0.7,
+            max_tokens=4096,
+            top_p=1
+        )
+        
+        success = True
+        return {
+            "response": response.choices[0].message.content,
+            "duration": time.time() - start_time,
+            "model": model
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        logger.info({
+            "success": success,
+            "duration": time.time() - start_time,
+            "model": model
+        })
