@@ -283,3 +283,41 @@ async def chat_with_ai21(model: str, request: QuestionRequest):
             "duration": time.time() - start_time,
             "model": model
         })
+#####################################
+@app.post("/microsoft-phi/text/{model}")
+async def chat_with_phi(model: str, request: QuestionRequest):
+    start_time = time.time()
+    success = False
+
+    system_message = SystemMessage(content="You are a helpful assistant.")
+
+    user_message = UserMessage(content=request.question)
+
+    messages = [system_message, user_message]
+
+    try:
+        response = ChatCompletions.complete(
+            messages=messages,
+            model=model,
+            temperature=0,
+            max_tokens=2048,
+            top_p=1
+        )
+        
+        success = True
+        return {
+            "success": success,
+            "response": response.choices[0].message.content,
+            "duration": time.time() - start_time,
+            "model": model
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        logger.info({
+            "success": success,
+            "duration": time.time() - start_time,
+            "model": model
+        })
+################################
