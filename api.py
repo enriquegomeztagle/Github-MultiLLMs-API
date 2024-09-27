@@ -61,7 +61,7 @@ def health_check():
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "environment": os.environ.get("FLASK_ENV", "dev"),
         "version": "1.0.0",
-        "author": "https://github.com/enriquegomeztagle"
+        "author": "enriquegomeztagle"
     }
     return JSONResponse(content=health_data)
 ########################################################
