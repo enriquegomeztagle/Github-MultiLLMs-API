@@ -45,3 +45,11 @@
 
 * Cohere-command-r
 * Cohere-command-r-plus
+
+```
+/ai21/text/{model}
+```
+
+* AI21-Jamba-1.5-Large
+* AI21-Jamba-1.5-Mini
+* AI21-Jamba-Instruct
