@@ -1,6 +1,6 @@
 # Github Multi LLMs API
 
-### A unified API for accessing multiple language models from various providers
+A unified API for accessing multiple language models from various providers
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Proprietary-red.svg)
@@ -18,7 +18,6 @@ This project provides a unified API for accessing a variety of language models f
 - [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
 ## Available Models
@@ -30,8 +29,14 @@ This project provides a unified API for accessing a variety of language models f
 - `/openai/text/{model}`
   - gpt-4o-mini
   - gpt-4o
-  - ***OpenAI o1-mini (COMING SOON...)***
-  - ***OpenAI o1-preview (COMING SOON...)***
+
+**⚠️ Note:** Currently, the `gpt-4o` model is experiencing issues on the provider's side. Please check back later for updates.
+
+  - **OpenAI o1-mini** 
+    > **_COMING SOON..._**
+  - **OpenAI o1-preview** 
+    > **_COMING SOON..._**
+
 
 #### Embeddings
 
@@ -50,7 +55,7 @@ This project provides a unified API for accessing a variety of language models f
 ### Meta
 
 - `/meta/text/{model}`
-  - Meta-Llama-3-8-Instruct
+  - Meta-Llama-3-8B-Instruct
   - Meta-Llama-3-70B-Instruct
   - Meta-Llama-3.1-8B-Instruct
   - Meta-Llama-3.1-70B-Instruct
@@ -90,23 +95,84 @@ This project provides a unified API for accessing a variety of language models f
 
 ## Prerequisites
 
-(Add information about the prerequisites needed to use the API)
+To use this API, ensure you have the following:
+
+- Python 3.10 or higher.
+- A virtual environment (optional but recommended).
+- A GITHUB_TOKEN with access to Beta Github Models.
+- Dependencies installed (see installation section).
 
 ## Installation
 
-(Provide detailed instructions on how to install and configure the API)
+Follow these steps to install and configure the API:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/enriquegomeztagle/Github-MultiLLMs-API
+   cd Github-MultiLLMs-API
+   ```
+
+2. **Create a virtual environment (optional):**
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+
+3. **Install the dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Set up environment variables:**
+   Make sure to set the `GITHUB_TOKEN` environment variable with your GitHub token.
+
+   ```bash
+   export GITHUB_TOKEN="your_token_here"
+   ```
+
+5. **Start the API:**
+
+   ```bash
+   uvicorn api:app --reload
+   ```
 
 ## Usage
 
-(Explain how to use the API, including examples of API calls and responses)
+To use the API, make HTTP requests to the provided endpoints. Below is an example of how to make a request to the API:
 
+### Example Request to OpenAI
+
+**Endpoint:**
+POST /openai/text/gpt-4o
+
+**Request Body:**
+
+```json
+{
+    "question": "What is the capital of France?"
+}
+```
+
+**Expected Response:**
+```json
+{
+    "response": "The capital of France is Paris.",
+    "success": true,
+    "duration": 0.123,
+    "model": "gpt-4o"
+}
+```
+<!-- 
 ## Examples
 
 (Provide concrete examples of usage for different models and use cases)
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests to us. -->
 
 ## License
 
