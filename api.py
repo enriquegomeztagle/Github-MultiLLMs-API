@@ -56,7 +56,7 @@ def health_check():
     }
     return JSONResponse(content=health_data)
 ########################################################
-@app.post("/openai/{model}")
+@app.post("/openai/text/{model}")
 async def ask_question(model: str, request: QuestionRequest):
     start_time = time.time()
     success = False
@@ -78,14 +78,14 @@ async def ask_question(model: str, request: QuestionRequest):
             temperature=1.0,
             top_p=1.0,
             max_tokens=1000,
-            model=model  # Usar el modelo de la ruta
+            model=model
         )
         success = True
         return {
             "response": response.choices[0].message.content,
             "success": success,
             "duration": time.time() - start_time,
-            "model": model  # Retornar el modelo utilizado
+            "model": model
         }
     except Exception as e:
         logger.error(f"Error: {str(e)}")
@@ -96,3 +96,28 @@ async def ask_question(model: str, request: QuestionRequest):
             "duration": time.time() - start_time,
             "model": model
         })
+########################################################
+@app.post("/openai/embeddings/{model_name}")
+async def get_embeddings(model_name: str, request: EmbeddingRequest):
+    try:
+        response = OpenAIEmbeddingsClient.embed(
+            input=request.phrases,
+            model=model_name
+        )
+        
+        embeddings_data = []
+        for item in response.data:
+            length = len(item.embedding)
+            embeddings_data.append({
+                "index": item.index,
+                "length": length,
+                "embedding": item.embedding
+            })
+        
+        return {
+            "embeddings": embeddings_data,
+            "usage": response.usage
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
