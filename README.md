@@ -66,3 +66,9 @@
 * Phi-3-mini-4k-instruct
 * Phi-3-small-128k-instruct
 * Phi-3-small-8k-instruct
+
+```
+/microsoft-phi/vision/{model}
+```
+
+* Phi-3.5-vision-instruct
