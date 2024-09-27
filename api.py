@@ -55,9 +55,9 @@ def health_check():
         "version": "1.0.0"
     }
     return JSONResponse(content=health_data)
-
-@app.post("/gpt4o-mini")
-async def ask_question(request: QuestionRequest):
+########################################################
+@app.post("/openai/{model}")
+async def ask_question(model: str, request: QuestionRequest):
     start_time = time.time()
     success = False
 
@@ -73,18 +73,19 @@ async def ask_question(request: QuestionRequest):
     ]
     
     try:
-        response = client.chat.completions.create(
+        response = OpenAIclient.chat.completions.create(
             messages=messages,
             temperature=1.0,
             top_p=1.0,
             max_tokens=1000,
-            model=gpt4o_mini_id
+            model=model  # Usar el modelo de la ruta
         )
         success = True
         return {
             "response": response.choices[0].message.content,
             "success": success,
-            "duration": time.time() - start_time
+            "duration": time.time() - start_time,
+            "model": model  # Retornar el modelo utilizado
         }
     except Exception as e:
         logger.error(f"Error: {str(e)}")
@@ -92,5 +93,6 @@ async def ask_question(request: QuestionRequest):
     finally:
         logger.info({
             "success": success,
-            "duration": time.time() - start_time
+            "duration": time.time() - start_time,
+            "model": model
         })
