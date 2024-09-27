@@ -19,3 +19,12 @@
 
 * text-embedding-3-small
 * text-embedding-3-large
+
+```
+/mistral/chat/{model}
+```
+
+* Mistral-Nemo
+* Mistral-small
+* Mistral-large
+* Mistral-large-2407
