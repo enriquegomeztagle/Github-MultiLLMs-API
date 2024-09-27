@@ -39,7 +39,7 @@ OpenAIEmbeddingsClient = EmbeddingsClient(
     credential=AzureKeyCredential(token)
 )
 
-client = ChatCompletionsClient(
+ChatCompletions = ChatCompletionsClient(
     endpoint=azure_endpoint,
     credential=AzureKeyCredential(token),
 )
@@ -66,7 +66,7 @@ def health_check():
     return JSONResponse(content=health_data)
 ########################################################
 @app.post("/openai/text/{model}")
-async def ask_question(model: str, request: QuestionRequest):
+async def chat_with_openai(model: str, request: QuestionRequest):
     start_time = time.time()
     success = False
 
@@ -106,12 +106,15 @@ async def ask_question(model: str, request: QuestionRequest):
             "model": model
         })
 ########################################################
-@app.post("/openai/embeddings/{model_name}")
-async def get_embeddings(model_name: str, request: EmbeddingRequest):
+@app.post("/openai/embeddings/{model}")
+async def get_embeddings_openai(model: str, request: EmbeddingRequest):
     try:
+        start_time = time.time()
+        success = False
+
         response = OpenAIEmbeddingsClient.embed(
             input=request.phrases,
-            model=model_name
+            model=model
         )
         
         embeddings_data = []
@@ -122,16 +125,20 @@ async def get_embeddings(model_name: str, request: EmbeddingRequest):
                 "length": length,
                 "embedding": item.embedding
             })
-        
+        success = True
         return {
+            "success": success,
             "embeddings": embeddings_data,
-            "usage": response.usage
+            "usage": response.usage,
+
+            "duration": time.time() - start_time,
+            "model": model,
         }
     except Exception as e:
         logger.error(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 ########################################################
-@app.post("/mistral/chat/{model}")
+@app.post("/mistral/text/{model}")
 async def chat_with_mistral(model: str, request: QuestionRequest):
     start_time = time.time()
     success = False
@@ -143,7 +150,7 @@ async def chat_with_mistral(model: str, request: QuestionRequest):
     messages = [system_message, user_message]
 
     try:
-        response = client.complete(
+        response = ChatCompletions.complete(
             messages=messages,
             model=model,
             temperature=0.7,
@@ -153,6 +160,116 @@ async def chat_with_mistral(model: str, request: QuestionRequest):
         
         success = True
         return {
+            "success": success,
+            "response": response.choices[0].message.content,
+            "duration": time.time() - start_time,
+            "model": model
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        logger.info({
+            "success": success,
+            "duration": time.time() - start_time,
+            "model": model
+        })
+###############################
+@app.post("/meta/text/{model}")
+async def chat_with_meta(model: str, request: QuestionRequest):
+    start_time = time.time()
+    success = False
+
+    user_message = UserMessage(content=request.question)
+
+    messages = [user_message]
+
+    try:
+        response = ChatCompletions.complete(
+            messages=messages,
+            model=model,
+            temperature=0.8,
+            max_tokens=4096,
+            top_p=0.1
+        )
+        
+        success = True
+        return {
+            "success": success,
+            "response": response.choices[0].message.content,
+            "duration": time.time() - start_time,
+            "model": model
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        logger.info({
+            "success": success,
+            "duration": time.time() - start_time,
+            "model": model
+        })
+###############################
+@app.post("/cohere/text/{model}")
+async def chat_with_cohere(model: str, request: QuestionRequest):
+    start_time = time.time()
+    success = False
+
+    system_message = SystemMessage(content="You are a helpful assistant.")
+
+    user_message = UserMessage(content=request.question)
+
+    messages = [system_message, user_message]
+
+    try:
+        response = ChatCompletions.complete(
+            messages=messages,
+            model=model,
+            temperature=1,
+            max_tokens=4096,
+            top_p=1
+        )
+        
+        success = True
+        return {
+            "success": success,
+            "response": response.choices[0].message.content,
+            "duration": time.time() - start_time,
+            "model": model
+        }
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        logger.info({
+            "success": success,
+            "duration": time.time() - start_time,
+            "model": model
+        })
+###############################
+@app.post("/ai21/text/{model}")
+async def chat_with_ai21(model: str, request: QuestionRequest):
+    start_time = time.time()
+    success = False
+
+    system_message = SystemMessage(content="You are a helpful assistant.")
+
+    user_message = UserMessage(content=request.question)
+
+    messages = [system_message, user_message]
+
+    try:
+        response = ChatCompletions.complete(
+            messages=messages,
+            model=model,
+            temperature=1,
+            max_tokens=4096,
+            top_p=1
+        )
+        
+        success = True
+        return {
+            "success": success,
             "response": response.choices[0].message.content,
             "duration": time.time() - start_time,
             "model": model
