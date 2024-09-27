@@ -1,74 +1,121 @@
 # Github Multi LLMs API
 
-## Modelos disponibles por proveedor
+### A unified API for accessing multiple language models from various providers
 
-##### OpenAI:
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![License](https://img.shields.io/badge/license-Proprietary-red.svg)
 
-```
-/openai/text/{model}
-```
+## Description
 
-* gpt-4o-mini
-* gpt-4o
-* ***OpenAI o1-mini (COMING SOON...)***
-* ***OpenAI o1-preview (COMING SOON...)***
+This project provides a unified API for accessing a variety of language models from different providers, including OpenAI, Mistral, Meta, Cohere, AI21, and Microsoft.
 
-```
-/openai/embeddings/{model}
-```
+## Table of Contents
 
-* text-embedding-3-small
-* text-embedding-3-large
+- [Available Models](#available-models)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
-```
-/mistral/text/{model}
-```
+## Available Models
 
-* Mistral-Nemo
-* Mistral-small
-* Mistral-large
-* Mistral-large-2407
+### OpenAI
 
-```
-/meta/text/{model}
-```
+#### Text
 
-* Meta-Llama-3-8-Instruct
-* Meta-Llama-3-70B-Instruct
-* Meta-Llama-3.1-8B-Instruct
-* Meta-Llama-3.1-70B-Instruct
-* Meta-Llama-3.1-405B-Instruct
+- `/openai/text/{model}`
+  - gpt-4o-mini
+  - gpt-4o
+  - ***OpenAI o1-mini (COMING SOON...)***
+  - ***OpenAI o1-preview (COMING SOON...)***
 
-```
-/cohere/text/{model}
-```
+#### Embeddings
 
-* Cohere-command-r
-* Cohere-command-r-plus
+- `/openai/embeddings/{model}`
+  - text-embedding-3-small
+  - text-embedding-3-large
 
-```
-/ai21/text/{model}
-```
+### Mistral
 
-* AI21-Jamba-1.5-Large
-* AI21-Jamba-1.5-Mini
-* AI21-Jamba-Instruct
+- `/mistral/text/{model}`
+  - Mistral-Nemo
+  - Mistral-small
+  - Mistral-large
+  - Mistral-large-2407
 
-```
-/microsoft-phi/text/{model}
-```
+### Meta
 
-* Phi-3.5-MoE-instruct
-* Phi-3.5-mini-instruct
-* Phi-3-medium-128k-instruct
-* Phi-3-medium-4k-instruct
-* Phi-3-mini-128k-instruct
-* Phi-3-mini-4k-instruct
-* Phi-3-small-128k-instruct
-* Phi-3-small-8k-instruct
+- `/meta/text/{model}`
+  - Meta-Llama-3-8-Instruct
+  - Meta-Llama-3-70B-Instruct
+  - Meta-Llama-3.1-8B-Instruct
+  - Meta-Llama-3.1-70B-Instruct
+  - Meta-Llama-3.1-405B-Instruct
 
-```
-/microsoft-phi/vision/{model}
-```
+### Cohere
 
-* Phi-3.5-vision-instruct
+- `/cohere/text/{model}`
+  - Cohere-command-r
+  - Cohere-command-r-plus
+
+### AI21
+
+- `/ai21/text/{model}`
+  - AI21-Jamba-1.5-Large
+  - AI21-Jamba-1.5-Mini
+  - AI21-Jamba-Instruct
+
+### Microsoft Phi
+
+#### Text
+
+- `/microsoft-phi/text/{model}`
+  - Phi-3.5-MoE-instruct
+  - Phi-3.5-mini-instruct
+  - Phi-3-medium-128k-instruct
+  - Phi-3-medium-4k-instruct
+  - Phi-3-mini-128k-instruct
+  - Phi-3-mini-4k-instruct
+  - Phi-3-small-128k-instruct
+  - Phi-3-small-8k-instruct
+
+#### Vision
+
+- `/microsoft-phi/vision/{model}`
+  - Phi-3.5-vision-instruct
+
+## Prerequisites
+
+(Add information about the prerequisites needed to use the API)
+
+## Installation
+
+(Provide detailed instructions on how to install and configure the API)
+
+## Usage
+
+(Explain how to use the API, including examples of API calls and responses)
+
+## Examples
+
+(Provide concrete examples of usage for different models and use cases)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under a proprietary license. See the [LICENSE.md](LICENSE.md) file for details.
+
+## Author & Contact
+
+- [@EnriqueGomezTagle](https://github.com/enriquegomeztagle) / [@kikinacademy](https://github.com/kikinacademy)
+
+## Acknowledgements
+
+Thank all language model providers for innovating with this LLMs.
