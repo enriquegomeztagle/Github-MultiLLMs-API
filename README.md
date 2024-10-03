@@ -27,16 +27,17 @@ This project provides a unified API for accessing a variety of language models f
 #### Text
 
 - `/openai/text/{model}`
+
   - gpt-4o-mini
   - gpt-4o
+- **OpenAI o1-mini**
 
-**⚠️ Note:** Currently, the `gpt-4o` model is experiencing issues on the provider's side. Please check back later for updates.
+  > **_COMING SOON..._**
+  >
+- **OpenAI o1-preview**
 
-  - **OpenAI o1-mini** 
-    > **_COMING SOON..._**
-  - **OpenAI o1-preview** 
-    > **_COMING SOON..._**
-
+  > **_COMING SOON..._**
+  >
 
 #### Embeddings
 
@@ -112,27 +113,35 @@ Follow these steps to install and configure the API:
    git clone https://github.com/enriquegomeztagle/Github-MultiLLMs-API
    cd Github-MultiLLMs-API
    ```
-
 2. **Create a virtual environment (optional):**
 
    ```bash
    python -m venv venv
    source venv/bin/activate
    ```
-
 3. **Install the dependencies:**
 
    ```bash
    pip install -r requirements.txt
    ```
-
 4. **Set up environment variables:**
    Make sure to set the `GITHUB_TOKEN` environment variable with your GitHub token.
 
-   ```bash
+   ```
    export GITHUB_TOKEN="your_token_here"
    ```
 
+   Or create a .env with
+
+   ```
+   GITHUB_TOKEN= "your_token_here"
+   ```
+
+   And then: 
+
+   ```
+   export GITHUB_TOKEN=$(grep 'GITHUB_TOKEN' .env | cut -d'=' -f2)
+   ```
 5. **Start the API:**
 
    ```bash
@@ -157,6 +166,7 @@ POST /openai/text/gpt-4o
 ```
 
 **Expected Response:**
+
 ```json
 {
     "response": "The capital of France is Paris.",
@@ -165,6 +175,7 @@ POST /openai/text/gpt-4o
     "model": "gpt-4o"
 }
 ```
+
 <!-- 
 ## Examples
 
